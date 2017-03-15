@@ -31,10 +31,15 @@
         <td><%= link_to(cart_item.product.title, product_path(cart_item.product)) %></td>
         <td><%= cart_item.product.price %></td>
         <td>
-          <%= form_for cart_item, url: cart_item_path(cart_item.product_id) do |f| %>
-          <%= f.select :quantity, 1..cart_item.product.quantity %>
-          <%= f.submit "更新", data: { disable_with: "Submitting..."} %>
+          <% if cart_item.product.quantity > 0 %>
+            <%= form_for cart_item, url: cart_item_path(cart_item.product_id) do |f| %>
+            <%= f.select :quantity, 1..cart_item.product.quantity %>
+            <%= f.submit "更新", data: { disable_with: "Submitting..."} %>
+            <% end %>
+          <% else %>
+            <span>缺货</span>
           <% end %>
+
         </td>
         <td>
           <%= link_to cart_item_path(cart_item.product_id), method: :delete do %>
